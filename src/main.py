@@ -25,7 +25,7 @@ myredis = redis.Redis(host=redis_host, port=redis_port, password=redis_pw)
 ts = Timeseries(myredis, type='series', intervals={
     'second': {
         'step' : 1,
-        'steps' : 1440,
+        'steps' : 20400,
     }
 })
 
@@ -53,13 +53,12 @@ def collect():
         temperature = request.form['temp']
     
     ts.insert('temp', temperature)
-    foo = ts.series('temp', 'second', steps=4)
+    foo = ts.series('temp', 'second')
     return "{}".format(foo)
 
 @app.route('/')
 def index():
     templist = get_latest_temps()
-    print type(templist)
     return render_template('default.html', temps=templist)
 
 if __name__ == "__main__":
