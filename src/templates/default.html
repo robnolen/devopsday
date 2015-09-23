@@ -7,7 +7,9 @@
             {% for key, value in temps.iteritems() %}
             <p align="center">
             <dt>{{key|tsfilter}}</dt>
-            <dd>{{value}}</dd>
+                {% for item in temps[key] %}
+                <dd>{{item}}</dd>
+                {% endfor %}
             </p>
             {% endfor %}
     </body>
