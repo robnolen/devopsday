@@ -32,7 +32,7 @@ ts = Timeseries(myredis, type='series', intervals={
 @app.template_filter()
 def convert_timestamp(ts):
     stamp = datetime.datetime.fromtimestamp(ts)
-    return stamp.strftime('%Y-%m-%d %h')
+    return stamp.strftime('%Y-%m-%d %H:%M:%S')
 
 app.jinja_env.filters['tsfilter'] = convert_timestamp
 
