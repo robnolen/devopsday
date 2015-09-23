@@ -23,13 +23,17 @@ myredis = redis.Redis(host=redis_host, port=redis_port, password=redis_pw)
 ts = Timeseries(myredis, type='series', intervals={
     'second': {
         'step' : 1,
-        'steps' : 60,
+        'steps' : 1440,
     }
 })
 
 def get_latest_temps():
-    #here we will get and assign the five last temps reported
-    series = ts.series('temp', 'second', steps=4)
+    #here we will get and assign the temps reported
+    series = ts.series('temp', 'second')
+    for x in series.items():
+        if not x[1]:
+            series.pop(x[0])
+    
     return series
 
 @app.route('/collect', methods=['POST'])
