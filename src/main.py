@@ -42,8 +42,6 @@ def get_latest_temps():
     for x in series.items():
         if not x[1]:
             series.pop(x[0])
-        else:
-            print type(x[1])
     return series
 
 @app.route('/collect', methods=['POST'])
