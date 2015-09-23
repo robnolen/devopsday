@@ -1,8 +1,7 @@
 import os
 import redis
 import json
-from flask import Flask
-from flask import request
+from flask import Flask, render_template, request
 from kairos import Timeseries
 
 app = Flask(__name__)
@@ -30,8 +29,8 @@ ts = Timeseries(myredis, type='series', intervals={
 
 def get_latest_temps():
     #here we will get and assign the five last temps reported
-    foo = "bar"
-    return "0"
+    series = ts.series('temp', 'second', steps=4)
+    return series
 
 @app.route('/collect', methods=['POST'])
 def collect():
@@ -48,17 +47,7 @@ def collect():
 @app.route('/')
 def index():
     templist = get_latest_temps()
-    return """
-    <html>
-    <head>
-        <title>CF Demo App</title>
-    </head>
-    <body>
-        <p align="center">Last five temperature readings from Photon:</p>
-        {}<br />
-    </body>
-    </html>
-    """.format(templist)
+    return render_template('default.html', temps=templist)
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0', port=int(os.getenv('VCAP_APP_PORT', '5000')))
