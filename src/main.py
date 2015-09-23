@@ -1,10 +1,12 @@
 import os
 import redis
 import json
+import datetime
 from flask import Flask, render_template, request
 from kairos import Timeseries
 
 app = Flask(__name__)
+
 
 # default redis config
 redis_host = os.getenv('REDIS_HOST')
@@ -27,13 +29,19 @@ ts = Timeseries(myredis, type='series', intervals={
     }
 })
 
+@app.template_filter()
+def convert_timestamp(ts):
+    stamp = datetime.datetime.fromtimestamp(ts)
+    return stamp.strftime('%Y-%m-%d %h')
+
+app.jinja_env.filters['tsfilter'] = convert_timestamp
+
 def get_latest_temps():
     #here we will get and assign the temps reported
     series = ts.series('temp', 'second')
     for x in series.items():
         if not x[1]:
             series.pop(x[0])
-    
     return series
 
 @app.route('/collect', methods=['POST'])
@@ -51,6 +59,7 @@ def collect():
 @app.route('/')
 def index():
     templist = get_latest_temps()
+    print type(templist)
     return render_template('default.html', temps=templist)
 
 if __name__ == "__main__":
