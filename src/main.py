@@ -1,8 +1,8 @@
 import os
 import redis
-import json
-import requests
 from flask import Flask
+from flask import request
+from kairos import Timeseries
 
 app = Flask(__name__)
 
@@ -20,16 +20,29 @@ if not os.getenv('VCAP_SERVICES') == None:
     redis_pw   = service_creds['password']
 
 myredis = redis.Redis(host=redis_host, port=redis_port, password=redis_pw)
+ts = Timeseries(myredis, type='series', intervals={
+    'second': {
+        'step' : 1,
+        'steps' : 60,
+    }
+})
 
 def get_latest_temps():
     #here we will get and assign the five last temps reported
     foo = "bar"
     return "0"
 
-@app.route('/collect')
+@app.route('/collect', methods=['POST'])
 def collect():
     #here we will grab input from the photon
-    foo = "bar"
+    temperature = 0
+    timestamp = 0
+    if request.method == 'POST':
+        temperature = request.form['temp']
+    
+    ts.insert('temp', temperature)
+    foo = ts.series('temp', 'second', steps=4)
+    return "{}".format(foo)
 
 @app.route('/')
 def index():
