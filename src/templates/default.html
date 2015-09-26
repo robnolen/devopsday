@@ -12,6 +12,8 @@
                 <p class="lead" align="center">Last five temperature readings from Photon:</p>
             </div>
             <div class="row">
+                <p align="center" class="lead"><a href="/?t=c">C</a> | <a href="/">F</a>
+            <div class="row">
                 <div class="col-md-6">
                 <table class="table">
                 <thead>
@@ -21,11 +23,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for key, value in temps.iteritems() %}
+                {% for key, value in temps %}
                   <tr>
                     <td>{{key|tsfilter}}</td>
-                    <td>{% for item in temps[key] %}
-                            {{item}}  
+                    <td>{% for item in value %}
+                            {{item|ctof}}  
                         {% endfor %}
                     </td>
                   </tr>
