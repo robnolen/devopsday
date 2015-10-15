@@ -67,6 +67,12 @@ def collect():
     ts.insert('temp', temperature)
     return ""
 
+@app.route('/dump')
+def dump_data():
+    keys = myredis.keys('*')
+    
+    return "\n".join(keys)
+
 @app.route('/')
 def index():
     templist = get_latest_temps(5)
