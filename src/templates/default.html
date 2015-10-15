@@ -1,13 +1,13 @@
 <html>
     <head>
-        <title>CF Demo App</title>
+        <title>Particle Photon Demo</title>
         <link href="static/css/bootstrap.min.css" rel="stylesheet">
         <link href="static/dist/css/bootstrap-theme.min.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="static/theme.css" rel="stylesheet">
         <style>
             tr {
-                width: 100%;
+                width: 90%;
                 display: inline-table;
             }
 
@@ -28,7 +28,7 @@
                 <p class="lead" align="center">Last five temperature readings from Photon:</p>
             </div>
             <div class="row">
-                <p align="center" class="lead"><a href="/?t=c">C</a> | <a href="/">F</a>
+                <p align="center" class="lead"><a href="/?t=c">C</a> | <a href="/">F</a></p>
             <div class="row">
                 <div class="col-md-6">
                 <table class="table">
@@ -42,7 +42,7 @@
                 {% for key, value in temps %}
                   <tr>
                     <td>{{key|tsfilter}}</td>
-                    <td>{% for item in value %}
+                    <td align="left">{% for item in value %}
                             {{item|ctof}}  
                         {% endfor %}
                     </td>
