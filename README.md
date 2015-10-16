@@ -9,5 +9,5 @@ We will be using a Photon.io protyping board to sample the ambient temperature i
     * Pivotal Web Services account - https://run.pivotal.io. Sign up for the 60 day free trial.
     * Cloud Foundry CLI - Available from Pivotal Web Services portal, directly from the main console page.
     * Git binaries to clone source code: https://git-scm.com/download/win
-    * Account created on build.particle.io - for registering Photon and pushing code.
+    * Account created on https://build.particle.io - for registering Photon and pushing code.
 
