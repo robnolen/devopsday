@@ -1,0 +1,16 @@
+---
+# manifest file
+declared-services:
+    rediscloud:
+        label: devops-day-redis
+        plan: 30mb
+
+applications:
+    - name: devops-day
+      memory: 256M
+      buildpack: python_buildpack
+      instances: 1
+      services:
+         - devops-day-redis
+
+    

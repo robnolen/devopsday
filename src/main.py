@@ -16,9 +16,9 @@ redis_pw   = os.getenv('REDIS_PW')
 
 #if VCAP_SERVICES is not Nil, then we are in CF, and use rediscloud service
 if not os.getenv('VCAP_SERVICES') == None:
-    service_data = json.loads(os.getenv('VCAP_SERVICES'))['redis'][0]
+    service_data = json.loads(os.getenv('VCAP_SERVICES'))['rediscloud'][0]
     service_creds = service_data['credentials']
-    redis_host = service_creds['host']
+    redis_host = service_creds['hostname']
     redis_port = service_creds['port']
     redis_pw   = service_creds['password']
 
