@@ -6,52 +6,66 @@
         <!-- Custom styles for this template -->
         <link href="static/theme.css" rel="stylesheet">
         <style>
-            tr {
-                width: 90%;
-                display: inline-table;
-            }
-
-            table{
-                 height:300px; 
-             }
-             tbody{
-                   overflow-y: scroll;
-                     height: 200px;
-                     width: 90%;
-                     position: absolute;
-                     }
+          body {
+              overflow-x: hidden;
+          }
+          table, tbody, thead {
+              display: block;
+          }
+          tbody, thead {
+              overflow-y: scroll;
+          }
+          thead {
+              margin-right: -300px;
+              padding-right: 300px;
+          }
+          tbody {
+              height: 100px;
+          }
+          tr {
+              display: table;
+              border-collapse: collapse;
+              width: 100%;
+              box-sizing: border-box;
+          }
+          td , th {
+              width: 33.33%;
+              border: 1px solid #000;
+          }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="page-header"> 
+            <div class="page-header">
                 <p class="lead" align="center">Last five temperature readings from Photon:</p>
             </div>
             <div class="row">
                 <p align="center" class="lead"><a href="/?t=c">C</a> | <a href="/">F</a></p>
             <div class="row">
-                <div class="col-md-6">
-                <table class="table">
-                <thead>
+                <div class="col-md-12">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                          <th>Date/Time</th>
+                          <th>Value</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for key, value in temps %}
                     <tr>
-                        <th>Date/Time</th>
-                        <th>Value</th>
+                      <td>{{key|tsfilter}}</td>
+                      <td>{% for item in value %}
+                              {{item|ctof}}
+                          {% endfor %}
+                      </td>
                     </tr>
-                </thead>
-                <tbody>
-                {% for key, value in temps %}
-                  <tr>
-                    <td>{{key|tsfilter}}</td>
-                    <td align="left">{% for item in value %}
-                            {{item|ctof}}  
-                        {% endfor %}
-                    </td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        <p align="center"><img src="static/img/Federation-Lockup-2015.jpg" width="30%"></p>            
+                  {% endfor %}
+                  </tbody>
+                  </table>
+                </div>
+              </div>
+        <div class="row">
+          <p align="center"><img src="static/img/Federation-Lockup-2015.jpg" width="30%"></p>
         </div>
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
